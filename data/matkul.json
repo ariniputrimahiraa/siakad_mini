@@ -1,0 +1,12 @@
+[
+  {
+    "kode": "MK001",
+    "nama": "Pemrograman PHP",
+    "sks": 3
+  },
+  {
+    "kode": "MK002",
+    "nama": "Basis Data",
+    "sks": 3
+  }
+]

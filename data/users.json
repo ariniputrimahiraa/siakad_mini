@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "password": "123",
+    "role": "admin",
+    "nama": "Administrator"
+  },
+  {
+    "id": 2,
+    "username": "dosen1",
+    "password": "123",
+    "role": "dosen",
+    "nama": "Pak Budi"
+  },
+  {
+    "id": 3,
+    "username": "mhs1",
+    "password": "123",
+    "role": "mahasiswa",
+    "nama": "Andi",
+    "nim": "A001"
+  }
+]

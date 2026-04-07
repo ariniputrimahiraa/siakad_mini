@@ -1,0 +1,12 @@
+[
+  {
+    "nim": "A001",
+    "kode_matkul": "MK001",
+    "nilai": 90
+  },
+  {
+    "nim": "A001",
+    "kode_matkul": "MK002",
+    "nilai": 85
+  }
+]
