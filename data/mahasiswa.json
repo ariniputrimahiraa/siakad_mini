@@ -1,12 +1,17 @@
 [
-  {
-    "nim": "A001",
-    "nama": "Andi",
-    "prodi": "Informatika"
-  },
-  {
-    "nim": "A002",
-    "nama": "Siti",
-    "prodi": "Sistem Informasi"
-  }
+    {
+        "nim": "A001",
+        "nama": "Andi",
+        "prodi": "Informatika"
+    },
+    {
+        "nim": "A002",
+        "nama": "Siti",
+        "prodi": "Sistem Informasi"
+    },
+    {
+        "nim": "A004",
+        "nama": "Meysa",
+        "prodi": "Produksi Media"
+    }
 ]

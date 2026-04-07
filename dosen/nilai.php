@@ -28,81 +28,246 @@ if (isset($_POST['simpan'])) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Input Nilai</title>
 
-<style>
-body { font-family: Arial; background: #eef2f7; }
-.container { width: 90%; margin: 20px auto; }
-.card { background: white; padding: 20px; border-radius: 10px; }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-input, button {
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background: #f4f7fb;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 70px;
+    background: linear-gradient(180deg, #052455, #0a3a7a);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    gap: 15px;
+}
+
+.sidebar a {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 12px;
+    font-size: 18px;
+    transition: 0.25s;
+    position: relative;
+}
+
+.sidebar a:hover {
+    background: rgba(255,255,255,0.15);
+    transform: scale(1.1);
+}
+
+.sidebar a span {
+    position: absolute;
+    left: 60px;
+    background: #052455;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    opacity: 0;
+    transition: 0.2s;
+}
+
+.sidebar a:hover span {
+    opacity: 1;
+}
+
+.logout {
+    margin-top: auto;
+    background: white;
+    color: #052455;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    color: #052455;
+    font-size: 20px;
+}
+
+.user {
+    background: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+/* FORM */
+.form-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+    max-width: 400px;
+}
+
+input {
     width: 100%;
     padding: 10px;
-    margin: 5px 0;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 13px;
+}
+
+input:focus {
+    border-color: #052455;
+    outline: none;
 }
 
 button {
-    background: #2ecc71;
+    width: 100%;
+    padding: 10px;
+    background: #052455;
     color: white;
     border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
 }
 
-table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
+button:hover {
+    background: #0a3a7a;
 }
 
-td, th {
-    border: 1px solid #ddd;
-    padding: 10px;
+.back {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 13px;
+    text-decoration: none;
+    color: #052455;
 }
+
+/* TABLE */
+.table-box {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.table-header {
+    background: #052455;
+    color: white;
+    padding: 12px;
+    font-size: 14px;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.5fr;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+}
+
+.row:hover {
+    background: #f9fbff;
+}
+
+.empty {
+    text-align: center;
+    padding: 15px;
+    font-size: 13px;
+    color: #888;
+}
+
 </style>
-
 </head>
 <body>
 
-<div class="container">
-<div class="card">
+<div class="sidebar">
 
-<h2>Input Nilai Mahasiswa</h2>
+    <a href="dashboard.php">
+        <i class="fas fa-home"></i>
+        <span>Dashboard</span>
+    </a>
 
-<form method="POST">
-<input name="nim" placeholder="NIM Mahasiswa" required>
-<input name="kode" placeholder="Kode Matkul" required>
-<input name="nilai" placeholder="Nilai" required>
-<button name="simpan">Simpan Nilai</button>
-</form>
+    <a href="nilai.php">
+        <i class="fas fa-chart-line"></i>
+        <span>Nilai</span>
+    </a>
 
-<a href="dashboard.php">⬅ Kembali</a>
-
-<?php
-// TAMPIL DATA NILAI
-$data = json_decode(file_get_contents($file), true);
-?>
-
-<h3>Data Nilai</h3>
-
-<table>
-<tr>
-<th>NIM</th>
-<th>Kode Matkul</th>
-<th>Nilai</th>
-</tr>
-
-<?php foreach ($data as $n): ?>
-<tr>
-<td><?= $n['nim'] ?></td>
-<td><?= $n['kode_matkul'] ?></td>
-<td><?= $n['nilai'] ?></td>
-</tr>
-<?php endforeach; ?>
-
-</table>
+    <a href="../auth/logout.php" class="logout">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+    </a>
 
 </div>
+
+<div class="main">
+
+    <div class="header">
+        <h1>Input Nilai</h1>
+        <div class="user">Halo, <?= $_SESSION['nama'] ?></div>
+    </div>
+
+    <div class="form-box">
+        <form method="POST">
+            <input name="nim" placeholder="NIM Mahasiswa" required>
+            <input name="kode" placeholder="Kode Matkul" required>
+            <input name="nilai" placeholder="Nilai" required>
+            <button name="simpan">Simpan Nilai</button>
+        </form>
+       
+    </div>
+
+    <?php $data = json_decode(file_get_contents($file), true); ?>
+
+    <div class="table-box">
+        <div class="table-header">Data Nilai</div>
+
+        <?php if(empty($data)): ?>
+            <div class="empty">Belum ada data</div>
+        <?php else: ?>
+            <?php foreach ($data as $n): ?>
+                <div class="row">
+                    <div><?= $n['nim'] ?></div>
+                    <div><?= $n['kode_matkul'] ?></div>
+                    <div><?= $n['nilai'] ?></div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+    </div>
+
 </div>
 
 </body>
