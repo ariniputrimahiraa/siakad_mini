@@ -1,5 +1,5 @@
 <?php
-require_once "../core/InterfaceLaporan.php";
+require_once "core/InterfaceLaporan.php";
 
 class KHS implements Laporan {
 

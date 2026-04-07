@@ -1,5 +1,5 @@
 <?php
-require_once "../../core/Mahasiswa.php";
+require_once "core/Mahasiswa.php";
 
 // DATA MAHASISWA
 $mahasiswa = [
