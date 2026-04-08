@@ -2,16 +2,19 @@
     {
         "nim": "A001",
         "nama": "Ando",
-        "prodi": "Informatika"
+        "prodi": "Informatika",
+        "jurusan": "Teknik"
     },
     {
         "nim": "A002",
         "nama": "Siti",
-        "prodi": "Sistem Informasi"
+        "prodi": "Sistem Informasi",
+        "jurusan": "Teknik"
     },
     {
         "nim": "A004",
         "nama": "Meysa",
-        "prodi": "Produksi Media"
+        "prodi": "Produksi Media",
+        "jurusan": "BKP"
     }
 ]

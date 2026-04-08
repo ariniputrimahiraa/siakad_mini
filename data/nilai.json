@@ -1,12 +1,32 @@
 [
-  {
-    "nim": "A001",
-    "kode_matkul": "MK001",
-    "nilai": 90
-  },
-  {
-    "nim": "A001",
-    "kode_matkul": "MK002",
-    "nilai": 85
-  }
+    {
+        "nim": "A001",
+        "kode_matkul": "MK001",
+        "nilai": 80
+    },
+    {
+        "nim": "A001",
+        "kode_matkul": "MK002",
+        "nilai": 90
+    },
+    {
+        "nim": "A001",
+        "kode_matkul": "MK003",
+        "nilai": 100
+    },
+    {
+        "nim": "A001",
+        "kode_matkul": "MK004",
+        "nilai": 60
+    },
+    {
+        "nim": "A001",
+        "kode_matkul": "MK005",
+        "nilai": 90
+    },
+    {
+        "nim": "A001",
+        "kode_matkul": "MK006",
+        "nilai": 88
+    }
 ]

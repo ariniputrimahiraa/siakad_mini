@@ -1,7 +1,7 @@
 [
     {
         "kode": "MK001",
-        "nama": "Pemrograman PHP",
+        "nama": "Pemrograman ",
         "sks": "4"
     },
     {
@@ -12,6 +12,21 @@
     {
         "kode": "MK003",
         "nama": "Bahasa Indonesia",
+        "sks": "4"
+    },
+    {
+        "kode": "MK004",
+        "nama": "Intermadiate English",
+        "sks": "4"
+    },
+    {
+        "kode": "MK005",
+        "nama": "Kewarganegaraan",
+        "sks": "2"
+    },
+    {
+        "kode": "MK006",
+        "nama": "Desain Grafis",
         "sks": "4"
     }
 ]

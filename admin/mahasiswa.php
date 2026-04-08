@@ -12,8 +12,7 @@ $data = json_decode(file_get_contents($file), true);
 if (isset($_POST['tambah'])) {
     $admin->tambahData($file, [
         "nim" => $_POST['nim'],
-        "nama" => $_POST['nama'],
-        "prodi" => $_POST['prodi']
+        "nama" => $_POST['nama']
     ]);
     header("Location: mahasiswa.php");
 }
@@ -41,7 +40,6 @@ if (isset($_POST['edit'])) {
         if ($d['nim'] == $_POST['nim_lama']) {
             $d['nim'] = $_POST['nim'];
             $d['nama'] = $_POST['nama'];
-            $d['prodi'] = $_POST['prodi'];
         }
     }
     file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
@@ -54,8 +52,7 @@ $keyword = isset($_GET['cari']) ? strtolower($_GET['cari']) : '';
 if ($keyword != '') {
     $data = array_filter($data, function ($m) use ($keyword) {
         return strpos(strtolower($m['nim']), $keyword) !== false ||
-               strpos(strtolower($m['nama']), $keyword) !== false ||
-               strpos(strtolower($m['prodi']), $keyword) !== false;
+               strpos(strtolower($m['nama']), $keyword) !== false;
     });
 }
 ?>
@@ -65,15 +62,15 @@ if ($keyword != '') {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kelola Mahasiswa</title>
-
+<title>Manajemen Mahasiswa</title>
+<link rel="icon" href="../assets/buk.png" type="image/png">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
 
-body{display:flex;min-height:100vh;background:#f4f7fb;}
+body{display:flex;min-height:100vh;background:#f4f7fb;overflow-x:hidden;}
 
 .sidebar{
     width:70px;background:linear-gradient(180deg,#052455,#0a3a7a);
@@ -96,7 +93,7 @@ body{display:flex;min-height:100vh;background:#f4f7fb;}
 .sidebar a:hover span{opacity:1}
 .logout{margin-top:auto;background:white;color:#052455}
 
-.main{flex:1;padding:20px}
+.main{flex:1;padding:20px;width:100%;}
 
 .header{
     display:flex;justify-content:space-between;
@@ -114,7 +111,7 @@ body{display:flex;min-height:100vh;background:#f4f7fb;}
 .form-box{
     background:white;padding:20px;border-radius:12px;
     box-shadow:0 5px 15px rgba(0,0,0,.08);
-    margin-bottom:20px;max-width:500px;
+    margin-bottom:20px;
 }
 
 .form-grid{
@@ -182,16 +179,13 @@ button:hover{background:#0a3a7a}
     <form method="POST">
         <div class="form-grid">
             <input name="nim" placeholder="NIM" required
-            value="<?php echo isset($editData['nim']) ? $editData['nim'] : ''; ?>">
+            value="<?= isset($editData['nim']) ? $editData['nim'] : '' ?>">
 
             <input name="nama" placeholder="Nama" required
-            value="<?php echo isset($editData['nama']) ? $editData['nama'] : ''; ?>">
-
-            <input name="prodi" placeholder="Prodi" required
-            value="<?php echo isset($editData['prodi']) ? $editData['prodi'] : ''; ?>">
+            value="<?= isset($editData['nama']) ? $editData['nama'] : '' ?>">
 
             <?php if ($editData): ?>
-                <input type="hidden" name="nim_lama" value="<?php echo $editData['nim']; ?>">
+                <input type="hidden" name="nim_lama" value="<?= $editData['nim'] ?>">
                 <button name="edit">Update</button>
             <?php else: ?>
                 <button name="tambah">Tambah</button>
@@ -200,11 +194,10 @@ button:hover{background:#0a3a7a}
     </form>
 </div>
 
-<!-- SEARCH (tanpa ubah layout besar) -->
 <div class="form-box">
     <form method="GET">
         <div class="form-grid">
-            <input name="cari" placeholder="Cari NIM / Nama / Prodi">
+            <input name="cari" placeholder="Cari NIM / Nama">
             <button>Cari</button>
         </div>
     </form>
@@ -219,7 +212,7 @@ button:hover{background:#0a3a7a}
         <?php foreach ($data as $m): ?>
             <div class="row">
                 <div><?= $m['nim'] ?></div>
-                <div><?= $m['nama'] ?> (<?= $m['prodi'] ?>)</div>
+                <div><?= $m['nama'] ?></div>
                 <div>
                     <a href="?edit=<?= $m['nim'] ?>">Edit</a> |
                     <a class="btn-hapus" href="?hapus=<?= $m['nim'] ?>">Hapus</a>

@@ -20,5 +20,21 @@
     "role": "mahasiswa",
     "nama": "Andi",
     "nim": "A001"
+  },
+  {
+    "id": 3,
+    "username": "ando",
+    "password": "123",
+    "role": "mahasiswa",
+    "nama": "Andi",
+    "nim": "A001"
+  },
+  {
+    "id": 3,
+    "username": "siti",
+    "password": "123",
+    "role": "mahasiswa",
+    "nama": "Andi",
+    "nim": "A002"
   }
 ]

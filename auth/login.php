@@ -32,7 +32,8 @@ if (isset($_POST['login'])) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login SIAKAD</title>
+<title>Login</title>
+<link rel="icon" href="../assets/buk.png" type="image/png">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -89,18 +90,20 @@ body {
 }
 
 .logo img {
-    width: 80%;
-    height: 80%;
+    width: 70%;
+    height: 70%;
     object-fit: cover; /* bikin selalu penuh & rapi */
 }
 
 .left h1 {
-    font-size: 26px;
+    font-size: 20px;
+    margin-bottom: 2px;
 }
 
 .left p {
     font-size: 14px;
     opacity: 0.85;
+    margin-top: -10px;
 }
 
 /* RIGHT */
@@ -184,7 +187,7 @@ button:hover {
 
     <div class="left">
         <div class="logo">
-           <img src="../buk.png">
+           <img src="../assets/buk.png">
         </div>
         <h1>SIAKAD</h1>
         <p>Sistem Informasi Akademik</p>

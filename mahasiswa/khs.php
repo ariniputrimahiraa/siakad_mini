@@ -4,23 +4,58 @@ if ($_SESSION['role'] != 'mahasiswa') exit('Akses ditolak');
 
 require_once '../core/Mahasiswa.php';
 
-// ambil data
+// ================= FUNCTION NILAI =================
+function konversiHuruf($nilai) {
+    if ($nilai >= 85) return "A";
+    if ($nilai >= 70) return "B";
+    if ($nilai >= 60) return "C";
+    return "D";
+}
+
+function bobot($huruf) {
+    if ($huruf == "A") return 4;
+    if ($huruf == "B") return 3;
+    if ($huruf == "C") return 2;
+    return 1;
+}
+
+// ================= DATA =================
 $nilaiData = json_decode(file_get_contents("../data/nilai.json"), true);
 $matkul = json_decode(file_get_contents("../data/matkul.json"), true);
 
-$nilai = [];
 $nim = $_SESSION['nim'];
 
-// ambil nilai milik mahasiswa
+$nilai = [];
+
+// ambil nilai milik mahasiswa + hitung IPK
+$totalBobot = 0;
+$jumlahMatkul = 0;
+
+// ================= FILTER NILAI =================
 foreach ($nilaiData as $n) {
     if ($n['nim'] == $nim) {
-        $nilai[] = $n['nilai'];
+        $huruf = konversiHuruf($n['nilai']);
+        $bobot = bobot($huruf);
+
+        $totalBobot += $bobot;
+        $jumlahMatkul++;
+
+        $nilai[] = [
+            "kode" => $n['kode_matkul'],
+            "nilai_angka" => $n['nilai'],
+            "nilai_huruf" => $huruf,
+            "bobot" => $bobot
+        ];
     }
 }
 
-// buat object mahasiswa
+// ================= HITUNG IPK =================
+$ipk = $jumlahMatkul > 0 ? $totalBobot / $jumlahMatkul : 0;
+$ipk = number_format($ipk, 2);
+
+// ================= OBJECT =================
 $mhs = new Mahasiswa($_SESSION['nama'], $nim);
-$mhs->setNilai($nilai);
+$mhs->setNilai(array_column($nilai, 'nilai_angka'));
 
 // POLYMORPHISM
 function cetakLaporan(CetakLaporan $obj) {
@@ -34,7 +69,7 @@ function cetakLaporan(CetakLaporan $obj) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KHS Mahasiswa</title>
-
+<link rel="icon" href="../assets/buk.png" type="image/png">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
@@ -112,8 +147,9 @@ body{
 
 .row{
     display:grid;
-    grid-template-columns:2fr 1fr;
-    padding:12px;border-bottom:1px solid #eee;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    padding:12px;
+    border-bottom:1px solid #eee;
     font-size:13px;
 }
 
@@ -145,7 +181,6 @@ body{
 <body>
 
 <div class="sidebar">
-
     <a href="dashboard.php">
         <i class="fas fa-home"></i>
         <span>Dashboard</span>
@@ -160,7 +195,6 @@ body{
         <i class="fas fa-sign-out-alt"></i>
         <span>Logout</span>
     </a>
-
 </div>
 
 <div class="main">
@@ -173,27 +207,40 @@ body{
     <div class="table-box">
         <div class="table-header">Data Nilai</div>
 
+        <div class="row" style="font-weight:bold;background:#f0f4ff;">
+            <div>Matkul</div>
+            <div>Nilai Angka</div>
+            <div>Huruf</div>
+            <div>Bobot</div>
+        </div>
+
         <?php
-        foreach ($nilaiData as $n) {
-            if ($n['nim'] == $nim) {
-                foreach ($matkul as $m) {
-                    if ($m['kode'] == $n['kode_matkul']) {
-                        echo "<div class='row'>
-                                <div>{$m['nama']}</div>
-                                <div>{$n['nilai']}</div>
-                              </div>";
-                    }
+        foreach ($nilai as $n) {
+            foreach ($matkul as $m) {
+                if ($m['kode'] == $n['kode']) {
+                    echo "<div class='row'>
+                            <div>{$m['nama']}</div>
+                            <div>{$n['nilai_angka']}</div>
+                            <div>{$n['nilai_huruf']}</div>
+                            <div>{$n['bobot']}</div>
+                          </div>";
                 }
             }
         }
         ?>
-
     </div>
 
     <div class="report">
+        <div><strong>IPK:</strong> <?= $ipk ?></div>
+        <div><strong>Total Matkul:</strong> <?= $jumlahMatkul ?></div>
+        <br>
         <?php cetakLaporan($mhs); ?>
     </div>
 
     <button onclick="window.print()" class="print-btn">
         <i class="fas fa-print"></i> Cetak KHS
-    </butt
+    </button>
+
+</div>
+</body>
+</html>

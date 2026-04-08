@@ -15,13 +15,19 @@ if (isset($_POST['tambah'])) {
         "nama" => $_POST['nama'],
         "sks" => $_POST['sks']
     ]);
+
+    $_SESSION['success'] = "Data berhasil ditambahkan!";
     header("Location: matkul.php");
+    exit;
 }
 
 // ================= HAPUS =================
 if (isset($_GET['hapus'])) {
     $admin->hapusData($file, "kode", $_GET['hapus']);
+
+    $_SESSION['success'] = "Data berhasil dihapus!";
     header("Location: matkul.php");
+    exit;
 }
 
 // ================= AMBIL DATA EDIT =================
@@ -45,7 +51,10 @@ if (isset($_POST['edit'])) {
         }
     }
     file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
+
+    $_SESSION['success'] = "Data berhasil diupdate!";
     header("Location: matkul.php");
+    exit;
 }
 ?>
 
@@ -54,8 +63,8 @@ if (isset($_POST['edit'])) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kelola Mata Kuliah</title>
-
+<title>Manajemen Mata Kuliah</title>
+<link rel="icon" href="../assets/buk.png" type="image/png">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
@@ -125,7 +134,7 @@ body{
     border-radius:12px;
     box-shadow:0 5px 15px rgba(0,0,0,.08);
     margin-bottom:20px;
-    max-width:500px;
+    max-width:100%;
 }
 
 .form-grid{
@@ -183,6 +192,13 @@ button:hover{background:#0a3a7a}
 </head>
 <body>
 
+<!-- ALERT -->
+<?php if (isset($_SESSION['success'])): ?>
+<script>
+    alert("<?= $_SESSION['success']; ?>");
+</script>
+<?php unset($_SESSION['success']); endif; ?>
+
 <div class="sidebar">
 
     <a href="dashboard.php">
@@ -217,7 +233,8 @@ button:hover{background:#0a3a7a}
     <div class="form-box">
         <form method="POST">
             <div class="form-grid">
-       <input name="kode" placeholder="Kode" required 
+
+<input name="kode" placeholder="Kode" required 
 value="<?php echo isset($editData['kode']) ? $editData['kode'] : ''; ?>">
 
 <input name="nama" placeholder="Nama" required 
@@ -232,6 +249,7 @@ value="<?php echo isset($editData['sks']) ? $editData['sks'] : ''; ?>">
                 <?php else: ?>
                     <button name="tambah">Tambah</button>
                 <?php endif; ?>
+
             </div>
         </form>
     </div>
@@ -249,7 +267,7 @@ value="<?php echo isset($editData['sks']) ? $editData['sks'] : ''; ?>">
                     <div><?= $m['sks'] ?> SKS</div>
                     <div>
                         <a href="?edit=<?= $m['kode'] ?>">Edit</a> |
-                        <a class="btn-hapus" href="?hapus=<?= $m['kode'] ?>">Hapus</a>
+                        <a class="btn-hapus" href="?hapus=<?= $m['kode'] ?>" onclick="return confirm('Yakin mau hapus?')">Hapus</a>
                     </div>
                 </div>
             <?php endforeach; ?>
