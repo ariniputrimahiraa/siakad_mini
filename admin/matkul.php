@@ -8,7 +8,7 @@ $admin = new Admin($_SESSION['nama']);
 $file = "../data/matkul.json";
 $data = json_decode(file_get_contents($file), true);
 
-// TAMBAH
+// ================= TAMBAH =================
 if (isset($_POST['tambah'])) {
     $admin->tambahData($file, [
         "kode" => $_POST['kode'],
@@ -18,9 +18,33 @@ if (isset($_POST['tambah'])) {
     header("Location: matkul.php");
 }
 
-// HAPUS
+// ================= HAPUS =================
 if (isset($_GET['hapus'])) {
     $admin->hapusData($file, "kode", $_GET['hapus']);
+    header("Location: matkul.php");
+}
+
+// ================= AMBIL DATA EDIT =================
+$editData = null;
+if (isset($_GET['edit'])) {
+    foreach ($data as $d) {
+        if ($d['kode'] == $_GET['edit']) {
+            $editData = $d;
+            break;
+        }
+    }
+}
+
+// ================= PROSES EDIT =================
+if (isset($_POST['edit'])) {
+    foreach ($data as &$d) {
+        if ($d['kode'] == $_POST['kode_lama']) {
+            $d['kode'] = $_POST['kode'];
+            $d['nama'] = $_POST['nama'];
+            $d['sks'] = $_POST['sks'];
+        }
+    }
+    file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
     header("Location: matkul.php");
 }
 ?>
@@ -155,7 +179,6 @@ button:hover{background:#0a3a7a}
     text-align:center;padding:15px;
     font-size:13px;color:#888;
 }
-
 </style>
 </head>
 <body>
@@ -194,10 +217,21 @@ button:hover{background:#0a3a7a}
     <div class="form-box">
         <form method="POST">
             <div class="form-grid">
-                <input name="kode" placeholder="Kode" required>
-                <input name="nama" placeholder="Nama" required>
-                <input name="sks" placeholder="SKS" required>
-                <button name="tambah">Tambah</button>
+       <input name="kode" placeholder="Kode" required 
+value="<?php echo isset($editData['kode']) ? $editData['kode'] : ''; ?>">
+
+<input name="nama" placeholder="Nama" required 
+value="<?php echo isset($editData['nama']) ? $editData['nama'] : ''; ?>">
+
+<input name="sks" placeholder="SKS" required 
+value="<?php echo isset($editData['sks']) ? $editData['sks'] : ''; ?>">
+
+                <?php if ($editData): ?>
+                    <input type="hidden" name="kode_lama" value="<?= $editData['kode'] ?>">
+                    <button name="edit">Update</button>
+                <?php else: ?>
+                    <button name="tambah">Tambah</button>
+                <?php endif; ?>
             </div>
         </form>
     </div>
@@ -214,6 +248,7 @@ button:hover{background:#0a3a7a}
                     <div><?= $m['nama'] ?></div>
                     <div><?= $m['sks'] ?> SKS</div>
                     <div>
+                        <a href="?edit=<?= $m['kode'] ?>">Edit</a> |
                         <a class="btn-hapus" href="?hapus=<?= $m['kode'] ?>">Hapus</a>
                     </div>
                 </div>
